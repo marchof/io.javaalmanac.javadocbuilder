@@ -1,0 +1,18 @@
+name: JavaDoc
+
+on:
+  push
+
+jobs:
+  javadoc:
+    uses: marchof/io.javaalmanac.javadocbuilder/.github/workflows/javadoc.yml@main
+    with:
+      version:     '8u345'
+      repository:  'openjdk/jdk8u'
+      tag:         'jdk8u345-ga'
+      bootdistro:  'temurin'
+      bootversion: '8'
+      apitarget:   'build/javadoc/docs/api'
+      configure:   'MILESTONE=fcs'
+      licenses:    'LICENSE ASSEMBLY_EXCEPTION THIRD_PARTY_README'
+    secrets: inherit
