@@ -1,0 +1,19 @@
+name: JavaDoc
+
+on:
+  push
+
+jobs:
+  javadoc:
+    uses: marchof/io.javaalmanac.javadocbuilder/.github/workflows/javadoc.yml@main
+    with:
+      version:    '18.0.2'
+      repository: 'openjdk/jdk18u'
+      tag:        'jdk-18.0.2-ga'
+      bootdistro:  'temurin'
+      bootversion: '17'
+      apitarget:   'build/javadoc/images/docs/api'
+      configure:   '--with-version-pre='
+      licenses:    'LICENSE ASSEMBLY_EXCEPTION ADDITIONAL_LICENSE_INFO'
+    secrets: inherit
+
