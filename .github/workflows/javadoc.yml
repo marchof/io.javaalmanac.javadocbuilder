@@ -1,0 +1,17 @@
+name: JavaDoc
+
+on:
+  push
+
+jobs:
+  javadoc:
+    uses: marchof/io.javaalmanac.javadocbuilder/.github/workflows/javadoc.yml@main
+    with:
+      version:      '14.0.2'
+      repository:   'openjdk/jdk14u'
+      tag:          'jdk-14.0.2-ga'
+      bootdownload: 'https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.2%2B12/OpenJDK14U-jdk_x64_linux_hotspot_14.0.2_12.tar.gz'
+      apitarget:    'build/javadoc/images/docs/api'
+      configure:    '--with-version-pre='
+      licenses:     'LICENSE ASSEMBLY_EXCEPTION ADDITIONAL_LICENSE_INFO'
+    secrets: inherit
