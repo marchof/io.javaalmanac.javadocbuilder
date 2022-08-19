@@ -1,0 +1,117 @@
+name: Generic JavaDoc Action
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      repository:
+        required: true
+        type: string
+      tag:
+        required: true
+        type: string
+      configure:
+        required: false
+        type: string
+      apitarget:
+        required: false
+        type: string
+      licenses:
+        required: true
+        type: string
+      bootdistro:
+        required: false
+        type: string
+      bootversion:
+        required: false
+        type: string
+      bootdownload:
+        required: false
+        type: string
+
+jobs:
+  javadoc:
+    name: Generate JavaDoc
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Install Standard Boot JDK
+      uses: actions/setup-java@v3
+      if: ${{ inputs.bootdistro }}
+      with:
+        distribution: ${{ inputs.bootdistro }}
+        java-version: ${{ inputs.bootversion }}
+
+    - name: Install Custom Boot JDK
+      if: ${{ inputs.bootdownload }}
+      env:
+        JDK_BOOTDOWNLOAD: ${{ inputs.bootdownload }}
+      run: |
+        curl -Lo bootjdk.tar.gz ${JDK_BOOTDOWNLOAD}
+        mkdir bootjdk
+        tar -xf bootjdk.tar.gz --strip-components=1 -C bootjdk
+        echo "JAVA_HOME=$(realpath bootjdk)" >> ${GITHUB_ENV}
+
+    - name: Install Build Prerequisites
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          curl \
+          ca-certificates \
+          fontconfig \
+          autoconf \
+          file \
+          g++ \
+          gcc \
+          libcups2-dev \
+          libfontconfig1-dev \
+          libasound2-dev \
+          libx11-dev \
+          libxext-dev \
+          libxrender-dev \
+          libxrandr-dev \
+          libxtst-dev \
+          libxt-dev \
+          make \
+          unzip \
+          zip
+
+    - name: Checkout OpenJDK ${{ inputs.repository }}@${{ inputs.tag }}
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ inputs.repository }}
+        ref: ${{ inputs.tag }}
+        path: 'openjdk'
+
+    - name: Run JavaDoc Build
+      working-directory: openjdk
+      env:
+        JDK_VERSION: ${{ inputs.version }}
+        JDK_APITARGET: ${{ inputs.apitarget }}
+        JDK_CONFIGURE: ${{ inputs.configure }}
+        JDK_LICENSES: ${{ inputs.licenses }}
+      run: |
+
+        # Build OpenJDK JavaDoc
+        bash configure --with-conf-name=javadoc ${JDK_CONFIGURE}
+        make docs
+
+        # Copy License Files
+        cp ${JDK_LICENSES} ${JDK_APITARGET}
+
+        # Add Missing Fonts
+        curl -Lo fonts.zip https://github.com/marchof/the-missing-javadoc-fonts/releases/download/v1.0.0/javadoc-fonts.zip
+        unzip -d ${JDK_APITARGET} fonts.zip
+
+        # Create Archive
+        ARCHIVE=$(realpath build/api.zip)
+        (cd ${JDK_APITARGET} && zip -r ${ARCHIVE} .)
+
+    - name: Upload JavaDoc Archive
+      uses: actions/upload-artifact@v3
+      with:
+        name: openjdk-${{ inputs.version }}-javadoc
+        path: openjdk/build/api.zip
