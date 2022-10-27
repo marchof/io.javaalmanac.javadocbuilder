@@ -7,11 +7,11 @@ jobs:
   javadoc:
     uses: marchof/io.javaalmanac.javadocbuilder/.github/workflows/javadoc.yml@main
     with:
-      version:    '18.0.2'
-      repository: 'openjdk/jdk18u'
-      tag:        'jdk-18.0.2-ga'
+      version:    '19.0.1'
+      repository: 'openjdk/jdk19u'
+      tag:        'jdk-19.0.1-ga'
       bootdistro:  'temurin'
-      bootversion: '17'
+      bootversion: '18'
       apitarget:   'build/javadoc/images/docs/api'
       configure:   '--with-version-pre='
       licenses:    'LICENSE ASSEMBLY_EXCEPTION ADDITIONAL_LICENSE_INFO'
