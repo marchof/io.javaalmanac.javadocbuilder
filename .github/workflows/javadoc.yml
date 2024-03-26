@@ -39,7 +39,7 @@ jobs:
     steps:
 
     - name: Install Standard Boot JDK
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       if: ${{ inputs.bootdistro }}
       with:
         distribution: ${{ inputs.bootdistro }}
@@ -80,7 +80,7 @@ jobs:
           zip
 
     - name: Checkout OpenJDK ${{ inputs.repository }}@${{ inputs.tag }}
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.tag }}
@@ -111,7 +111,7 @@ jobs:
         (cd ${JDK_APITARGET} && zip -r ${ARCHIVE} .)
 
     - name: Upload JavaDoc Archive
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: openjdk-${{ inputs.version }}-javadoc
         path: openjdk/build/api.zip
