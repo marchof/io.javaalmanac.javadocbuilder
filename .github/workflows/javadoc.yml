@@ -7,9 +7,9 @@ jobs:
   javadoc:
     uses: marchof/io.javaalmanac.javadocbuilder/.github/workflows/javadoc.yml@main
     with:
-      version:    '21.0.3'
+      version:    '21.0.4'
       repository: 'openjdk/jdk21u'
-      tag:        'jdk-21.0.3-ga'
+      tag:        'jdk-21.0.4-ga'
       bootdistro:  'temurin'
       bootversion: '20'
       apitarget:   'build/javadoc/images/docs/api'
