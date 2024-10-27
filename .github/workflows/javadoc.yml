@@ -5,7 +5,7 @@ on:
 
 jobs:
   javadoc:
-    uses: marchof/io.javaalmanac.javadocbuilder/.github/workflows/javadoc.yml@main
+    uses: marchof/io.javaalmanac.javadocbuilder/.github/workflows/javadoc.yml@gcc-9
     with:
       version:     '8u432'
       repository:  'openjdk/jdk8u'
