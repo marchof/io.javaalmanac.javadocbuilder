@@ -64,8 +64,8 @@ jobs:
           fontconfig \
           autoconf \
           file \
-          g++ \
-          gcc \
+          g++-9 \
+          gcc-9 \
           libcups2-dev \
           libfontconfig1-dev \
           libasound2-dev \
@@ -78,6 +78,7 @@ jobs:
           make \
           unzip \
           zip
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100 --slave /usr/bin/g++ g++ /usr/bin/g++-9
 
     - name: Checkout OpenJDK ${{ inputs.repository }}@${{ inputs.tag }}
       uses: actions/checkout@v4
