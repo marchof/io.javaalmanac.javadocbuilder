@@ -13,6 +13,6 @@ jobs:
       bootdistro:  'temurin'
       bootversion: '11'
       apitarget:   'build/javadoc/images/docs/api'
-      configure:   '--with-version-pre='
+      configure:   '--disable-warnings-as-errors --with-version-pre='
       licenses:    'LICENSE ASSEMBLY_EXCEPTION ADDITIONAL_LICENSE_INFO'
     secrets: inherit
