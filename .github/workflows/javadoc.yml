@@ -7,9 +7,9 @@ jobs:
   javadoc:
     uses: marchof/io.javaalmanac.javadocbuilder/.github/workflows/javadoc.yml@gcc-9
     with:
-      version:     '8u502'
+      version:     '8u512'
       repository:  'openjdk/jdk8u'
-      tag:         'jdk8u502-ga'
+      tag:         'jdk8u512-ga'
       bootdistro:  'temurin'
       bootversion: '8'
       apitarget:   'build/javadoc/docs/api'
